@@ -1,0 +1,53 @@
+<!-- Reader's Home Page 
+    Displays a list of the articles with some information and content summary defined by author
+    also a header and nav menu.-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reader Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css" />
+
+</head>
+<body>
+    <header>
+        <h1>
+           <%= blog_name %>
+        </h1>
+        <h5>
+           <%= blog_description %>
+        </h5>
+        <p> By:
+            <%= author_name %>
+        </p>
+        <h4>Reader Home Page</h4>
+        <!-- add navigation links -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+           <a class="navbar-brand" href="/author-home">Author Home</a>
+        </nav>
+    </header>
+    <h4>Published Articles:</h4>
+    <!--list of published articles -->
+    <div class="articles">
+        <% for (let i=0; i < blog_posts.length; i++) { %>
+            <% if (blog_posts[i].isPublished) { %>
+                <!-- Each article sends its postID to the reader-article page -->
+                <a href="/reader-article?blogPostId=<%= blog_posts[i].post_id %>">
+                <div class="article-container">
+                        <h5 class="article-title"><%= blog_posts[i].title %></h5>
+                        <p class="article-summary"><%= blog_posts[i].content_summary %></p>
+                        <p class="article-author">By: <%= blog_posts[i].user_name %></p>
+                        <p class="article-date">Created-date: <%= blog_posts[i].last_modified %></p>
+                        <p class="article-likes">Likes: <%= blog_posts[i].likes %></p>
+                </div>
+                </a>
+            <% } %>
+        <% } %>
+    </div>
+    
+    <!-- Jquery and bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

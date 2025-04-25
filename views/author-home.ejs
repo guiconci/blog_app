@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+<head>
+   <title>Author Home Page</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<header>
+   <h1>
+      <%= blog_name %>
+   </h1>
+   <h5>
+      <%= blog_description %>
+   </h5>
+   <p> By:
+      <%for (let i=0; i < users.length; i++) { %>
+         <% if (users[i].user_id===author_id) { %>
+            <%= users[i].user_name %>
+               <% } %>
+                  <%}%>
+   </p>
+   <h4>Author's Home Page</h4>
+   <!-- add navigation, links to reader-article and reader-home pages using some bootstrap simple styling -->
+   <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="/reader-home">Reader Home</a>
+      <!-- Button that opens the modal to edit the blog details -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editBlogModal">
+         Edit Blog Details
+      </button>
+   </nav>
+</header>
+
+<body>
+   <!-- Button to add new post, creates a new row on the blog_posts tables and redirect to the edit page of the post recently created -->
+   <form action="/edit-new-post" method="GET">
+      <button type="submit" class="btn btn-primary btn-lg" id="new_post_button">Add New Post</button>
+   </form>
+
+
+      <!-- Table with NOT PUBLISHED - DRAFTS blog posts contents showing some atributes of the post that are commented below-->
+
+      <h4>Post Drafts</h4>
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th scope="col">Title</th>
+               <th scope="col">Author</th>
+               <th scope="col">Creation Date</th>
+               <th scope="col">Last Modified</th>
+               <th scole="col">Publish</th>
+               <th scope="col">Edit</th>
+               <th scope="col">Delete</th>
+            </tr>
+         </thead>
+         <tbody>
+            <% for (let i=0; i < blog_posts.length; i++) { %>
+               <% if (!blog_posts[i].isPublished) { %>
+                  <tr>
+                     <!-- draft title -->
+                     <td>
+                        <%= blog_posts[i].title %>
+                     </td>
+                     <!-- draft author -->
+                     <td>
+                        <%= blog_posts[i].user_name %>
+                     </td>
+                     <!-- draft created date -->
+                     <td>
+                        <%= blog_posts[i].creation_date %>
+                     </td>
+                     <!-- draft last edited date -->
+                     <td>
+                        <%= blog_posts[i].last_modified %>
+                     </td>
+                     <!-- Publish draft button -->
+                     <td>
+                        <form action="/publish-post" method="POST">
+                           <input type="hidden" name="blogPostId" value="<%= blog_posts[i].post_id %>">
+                           <button type="submit" class="btn btn-success">Publish</button>
+                        </form>
+                     <td>
+                        <!-- Edit draft button -->
+                        <form action="/author-edit" method="GET">
+                           <input type="hidden" name="blogPostId" value="<%= blog_posts[i].post_id %>">
+                           <button type="submit" class="btn btn-primary">Edit</button>
+                        </form>
+                     </td>
+                     <!-- Delete draft button -->
+                     <td>
+                        <form action="/delete-post" method="POST">
+                           <input type="hidden" name="blogPostId" value="<%= blog_posts[i].post_id %>">
+                           <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                     </td>
+                  </tr>
+               <% } %>
+            <% } %>
+         </tbody>
+      </table><br><br>
+
+      <!-- Table with PUBLISHED blog posts contents showing some atributes of the post that are commented below-->
+      <h4> Published Blog Posts</h4>
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th scope="col">Title</th>
+               <th scope="col">Author</th>
+               <th scope="col">Creation Date</th>
+               <th scope="col">Last Modified</th>
+               <th scope="col">Likes</th>
+               <th scope="col">Share</th>
+               <th scope="col">Edit</th>
+               <th scope="col">Delete</th>
+            </tr>
+         </thead>
+         <tbody>
+            <% for (let i=0; i < blog_posts.length; i++) { %>
+               <% if (blog_posts[i].isPublished) { %>
+                  <tr>
+                     <!-- post title -->
+                     <td>
+                        <%= blog_posts[i].title %>
+                     </td>
+                     <!-- post author -->
+                     <td>
+                        <%= blog_posts[i].user_name %>
+                     </td>
+                     <!-- post created date -->
+                     <td>
+                        <%= blog_posts[i].creation_date %>
+                     </td>
+                     <!-- post last edited date -->
+                     <td>
+                        <%= blog_posts[i].last_modified %>
+                     </td>
+                     <!-- post likes -->
+                     <td>
+                        <%= blog_posts[i].likes %>
+                     </td>
+                     <!-- Copy link button -->
+                     <td>
+                        <button class="btn btn-primary copy-btn" data-link="http://localhost:3000/reader-article?blogPostId=<%= blog_posts[i].post_id %>">Copy Link</button>
+                     </td>
+                     <!-- Edit post button -->
+                     <td>
+                        <form action="/author-edit" method="GET">
+                           <input type="hidden" name="blogPostId" value="<%= blog_posts[i].post_id %>">
+                           <button type="submit" class="btn btn-primary">Edit</button>
+                        </form>
+                     </td>
+                     <!-- Delete post button -->
+                     <td>
+                        <form action="/delete-post" method="POST">
+                           <input type="hidden" name="blogPostId" value="<%= blog_posts[i].post_id %>">
+                           <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                     </td>
+                  </tr>
+                  <% } %>
+                     <% } %>
+         </tbody>
+      </table>
+
+      <p>Homepage This is an example paragraph. Anything in the <strong>body
+         </strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.
+      </p>
+
+      <%- include('author-settings-modal.ejs') %>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <!-- copies reader link to clipboard -->
+      <script>
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+         btn.addEventListener('click', function() {
+             navigator.clipboard.writeText(this.dataset.link)
+                 .then(() => alert('Link copied to clipboard'))
+                 .catch(err => console.error('Could not copy text: ', err));
+         });
+      });
+      </script> 
+</body>
+
+</html>

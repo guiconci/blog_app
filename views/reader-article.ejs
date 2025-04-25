@@ -1,0 +1,76 @@
+<!-- Reader - Article Page -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reader - Article Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+    <header>
+        <h1>
+           <%= blog_name %>
+        </h1>
+        <h5>
+           <%= blog_description %>
+        </h5>
+        <p> By:
+            <%= author_name %>
+        </p>
+        <!-- add navigation links -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+           <a class="navbar-brand" href="/author-home">Author Home</a>
+           <a class="navbar-brand" href="/reader-home">Reader Home</a>
+        </nav>
+    </header>    
+
+    <!-- Display Single Article -->
+    <div class="read-article">
+        <!-- Like Button -->
+        <form id="like-form" action="/add-like" method="POST">
+            <input type="hidden" id="blogPostId" name="blogPostId" value="<%= blog_post.post_id %>">
+            <button id="like-button" class="btn btn-primary">Like</button>
+        </form>
+
+        <!-- Article Content -->
+        <h2><%= blog_post.title %></h2>
+        <p>Last Modified: <%= blog_post.last_modified %></p>
+        <p>Likes: <%= blog_post.likes %></p>
+        <p class="post-content"> <%= blog_post.content %> </p>               
+    </div>
+    
+    <!-- Add Comment Form -->
+    <form class="comments-form" action="/add-comment" method="POST">
+        <div class="form-group">
+            <label for="commenter-name">Commenter's Name:</label>
+            <input type="text" class="form-control" id="commenter-name" name="commenter" required maxlength="30">
+        </div>
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" id="comment" name="comment" required maxlength="500"></textarea>
+        </div>
+        <input type="hidden" id="blogPostId" name="blogPostId" value="<%= blog_post.post_id %>">
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </form>
+    
+    <!-- Previous Comments -->
+    <div class="prev-comments">
+        <h3>Comments</h3>
+        <ul class="comments-list">
+            <% for (let i=0; i < comments.length; i++) { %>
+                <li class="commenter"><%= comments[i].commenter_name%></li>
+                <ul>
+                    <li class="comment-content"><%= comments[i].content %></li>
+                    Commented on: <%=comments[i].comment_date %>
+                </ul>
+            <% } %>
+        </ul>
+    </div>
+    
+    <!-- Jquery and bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

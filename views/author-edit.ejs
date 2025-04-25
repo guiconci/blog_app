@@ -1,0 +1,94 @@
+<!-- Page for editting posts -->
+<!doctype html>
+<html>
+
+<head>
+    <title>Edit Posts Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<body id="edit-post">
+    <header>
+        <h1>Edit Blog Post</h1>
+        <% if(blog_post != null) { %>
+            <p>Creation Date: <%=blog_post.creation_date%></p>
+            <p>Last Modified Date: <%=blog_post.last_modified%></p>
+        <% } %>
+        <a href="/author-home">Back to Author Home</a>
+    </header>
+    
+    <div class="container">
+        <!-- FORMS FOR AND DISPLAYING blog_posts DATA -->
+        <div class="form-group">
+            <!-- Check if it is a new post by checking the blog_post = null -->
+            <% if (blog_post != null) { %>
+                <form action="/update-post" method="POST">
+            <% } else { %>
+                <form action="/create-post" method="POST">
+            <% } %>
+
+                <!-- AUTHOR NAMES DROP DOWN MENU -->
+                <label for="author-name">Author Name</label>
+                <select class="form-control" id="author-name" name="authorId">
+                    <!-- CHECKS if this is a new post and not yet have a record in DB -->
+                    <% if (blog_post == null) {  %>
+                        <option value="" disabled selected hidden>Select Author Name</option>
+                    <% } %>
+                    <% for (let i=0; i < users.length; i++) { %>
+                        <option value="<%= users[i].user_id %>" <% if (blog_post != null && users[i].user_id===blog_post.user_id) { %>selected<% } %>>
+                                <%= users[i].user_name %>
+                        </option>
+                        <% } %>
+                </select>
+
+                <!-- TEXT INPUT FIELDS -->
+                <!-- TItle field checks if is a new post if blog_post = null -->
+                <label for="title">Title:</label>
+                <% if (blog_post == null) {  %>
+                    <input type="text" class="form-control" id="title" name="postTitle" value="" required maxlength="50" placeholder="Enter post title"><br><br>
+                <% } else { %>
+                <!-- If is not a new post, the title field is filled with the current title -->
+                   <input type="text" class="form-control" id="title" name="postTitle" value="<%=blog_post.title%>" required maxlength="50"><br><br>
+                <% } %>
+
+                <!-- Content field checks if is a new post if blog_post = null -->
+                <label for="content">Content:</label>
+                <% if (blog_post == null) {  %> 
+                    <textarea class="form-control" id="content" name="postContent" required maxlength="1000" placeholder="Enter post content"></textarea><br><br>
+                <% } else { %>
+                <!-- If is not a new post, the content field is filled with the current content -->
+                    <textarea class="form-control" id="content" name="postContent" required maxlength="1000"><%=blog_post.content%> </textarea><br><br>
+                <% } %>
+                
+                <!-- Summary field checks if is a new post if blog_post = null -->
+                <label for="sumary">Post Summary</label>
+                <% if (blog_post == null) {  %>
+                    <textarea class="form-control" id="summary" name="postSummary" placeholder="Enter post summary" maxlength="200"></textarea><br><br>
+                <% } else { %>
+                <!-- If is not a new post, the summary field is filled with the current summary -->
+                    <textarea class="form-control" id="summary" name="postSummary" maxlength="150"><%=blog_post.content_summary%></textarea><br><br>
+                <% } %>
+                
+                <!-- SUBMIT INFORMATION BUTTONS -->
+                <!-- Checks if the post is new by checking if the blog_post if null -->
+                <% if(blog_post != null) { %>
+                    <!-- Passes the current post_id into the request -->
+                    <input type="hidden" name="blogPostId" value="<%= blog_post.post_id %>">
+                    <!-- Button for saving changes -->
+                    <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                <% } else { %>
+                    <!-- Button for creating new post -->
+                    <button type="submit" class="btn btn-primary btn-lg">Create New Post</button>
+                <% } %>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
