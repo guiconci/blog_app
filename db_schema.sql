@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS comments (
     commenter_name TEXT NOT NULL CHECK (length(commenter_name)<40),
     comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     post_id  INTEGER, --the post that the comment belongs to
-    FOREIGN KEY (post_id) REFERENCES blog_posts(post_id)
+    FOREIGN KEY (post_id) REFERENCES blog_posts(post_id) ON DELETE CASCADE
 );
 
 -- Insert default data (if necessary here)
