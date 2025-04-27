@@ -16,14 +16,32 @@ app.use(express.static(__dirname + '/public')); // set location of static files
 // Set up SQLite
 // Items in the global namespace are accessible throught out the node application
 const sqlite3 = require('sqlite3').verbose();
-global.db = new sqlite3.Database(/*'./database.db'*/'/usr/src/app/database/database.db',
-                                    function(err){
+const fs = require('fs');
+const path = require('path');
+
+// Use DB_PATH from environment variable, or to local db for development
+const dbPath = process.env.DB_PATH || './database.db';
+const schemaPath = path.join(__dirname, 'db_schema.sql')
+
+//Checks if db exsists in volume
+const dbExists = fs.existsSync(dbPath);
+
+//Connect to SQLite and creates the file if it doesnt exists, based on schema
+global.db = new sqlite3.Database(dbPath, function(err){
     if(err){
         console.error(err);
         process.exit(1); // bail out we can't connect to the DB
     } else {
-        console.log("Database connected");
+        console.log(`Database connected at: ${dbPath}`);
         //global.db.run("PRAGMA foreign_keys=ON"); // tell SQLite to pay attention to foreign key constraints
+
+        if(!dbExists) {
+            console.log("Database does not exist, initializing from schema...")
+            initializeDatabaseSchema ();
+        }
+        else {
+            console.log ("Database exists, skippng schema initialization")
+        }
 
         global.db.run("PRAGMA foreign_keys=ON", function(fkErr) {
             if (fkErr) {
@@ -34,6 +52,21 @@ global.db = new sqlite3.Database(/*'./database.db'*/'/usr/src/app/database/datab
         });
     }
 });
+
+//Function nto initalize database from schema file
+function initializeDatabaseSchema() {
+    const schemaSQL = fs.readFileSync(schemaPath, 'utf-8')
+
+    db.exec(schemaSQL, (err) => {
+        if (err) {
+            console.error("Error initializing DB schema");
+        }
+        else {
+            console.log("Database schema created successfully");
+        }
+    })
+}
+
 
 // Handle requests to the home page 
 app.get('/', (req, res) => {
