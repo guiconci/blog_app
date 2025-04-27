@@ -1,5 +1,9 @@
 # Use official Node.js image
-FROM node:18
+#FROM node:18
+FROM node:18-alpine
+
+# Install build tools for sqlite3
+RUN apk add --no-cache python3 make g++ sqlite sqlite-dev py3-setuptools
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -8,7 +12,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Rebuild native modules like sqlite3 inside the container
-RUN npm install --build-from-source
+RUN npm install --build-from-source sqlite3
 
 # Copy the rest of your app files
 COPY . .
