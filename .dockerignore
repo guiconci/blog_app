@@ -1,2 +1,5 @@
 #Ignore database
 database.db
+
+#ignore node modules
+node_modules

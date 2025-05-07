@@ -9,6 +9,58 @@ const app = express();
 const port = 3000;
 var bodyParser = require("body-parser");
 
+// 🔹 NEW: LiveReload setup (only for development)
+const livereload = require("livereload");
+const connectLiveReload = require("connect-livereload");
+const path = require('path'); // already imported later, just moved up here
+const chokidar = require('chokidar'); //watch changes in files
+
+if (process.env.NODE_ENV !== 'production') {
+    const liveReloadServer = livereload.createServer({ port: 35729, host: "0.0.0.0" });
+
+    //watches views and public folders
+    const watcher = chokidar.watch([
+        path.join(__dirname, 'views'),
+        path.join(__dirname, 'public')
+      ], {
+        ignoreInitial: true,
+        usePolling: process.env.USE_CHOKIDAR_POLLING === 'true', // 👈 Optional polling toggle
+        interval: 300, // ms between checks (if polling)
+      });
+
+      watcher.on('ready', () => {
+        console.log('👀 Chokidar is watching...');
+        console.log(watcher.getWatched());
+      });
+      
+      watcher.on('change', (filePath) => {
+        console.log('🔁 File changed:', filePath);
+        liveReloadServer.refresh('/');
+      });
+
+    console.log('LiveReload server listening on port 35729');
+
+    liveReloadServer.server.on('connection', () => {
+        console.log('✅ LiveReload WebSocket connected');
+    });
+
+    liveReloadServer.watch([
+        path.join(__dirname, 'public'), 
+        path.join(__dirname, 'views')
+    ]);
+    
+
+    app.use(connectLiveReload());
+
+    // Ensure browser reloads after server detects a change
+    // liveReloadServer.server.once("connection", () => {
+    //     setTimeout(() => {
+    //         liveReloadServer.refresh("/");
+    //     }, 100);
+    // });
+}
+
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs'); // set the app to use ejs for rendering
 app.use(express.static(__dirname + '/public')); // set location of static files
@@ -17,10 +69,9 @@ app.use(express.static(__dirname + '/public')); // set location of static files
 // Items in the global namespace are accessible throught out the node application
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
-const path = require('path');
 
 // Use DB_PATH from environment variable, or to local db for development
-const dbPath = process.env.DB_PATH || './database.db';
+const dbPath = process.env.DB_PATH || './database/database.db';
 const schemaPath = path.join(__dirname, 'db_schema.sql')
 
 //Checks if db exsists in volume
@@ -71,7 +122,7 @@ function initializeDatabaseSchema() {
 // Handle requests to the home page 
 app.get('/', (req, res) => {
     // res.send('Hello World!')
-    res.render('index.ejs');
+    res.render('index');
 });
 
 // Add all the route handlers in usersRoutes to the app under the path /users

@@ -1,30 +1,65 @@
 <!doctype html>
-<html> 
- <head> 
-    <title>Home Page</title> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="main.css" />
- </head> 
- <body> 
+<html>
+
+<head>
+  <title>Home Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap CSS via CDN -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="main.css" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind = {
+      config: {
+        darkMode: 'class'
+      }
+    }
+  </script>
+
+
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
+
+  <div id="wrapper">
+
     <header>
-        <h1>
-           Home Page
-        </h1>
-        <!-- add navigation links -->
-        <nav class="navbar navbar-expand-lg navbar-dark">
-           <a class="navbar-brand" href="/author-home">Author Home</a>
-           <a class="navbar-brand" href="/reader-home">Reader Home</a>
-        </nav>
-    </header> 
+    <div class="max-w-screen-xl mx-auto px-4 py-2 flex justify-between items-center">
+    <!-- Left: Your Name -->
+    <div class="text-xl font-semibold text-gray-800 dark:text-white">
+      Guilherme
+    </div>
+
+    <!-- Right: Nav Links + Dark Mode Button -->
+    <div class="flex items-center gap-4">
+      <a href="/blog" class="text-gray-700 dark:text-gray-300 hover:underline">Blog</a>
+      <a href="/profile" class="text-gray-700 dark:text-gray-300 hover:underline">Profile</a>
+      <button id="dark-toggle" class="text-gray-500 dark:text-yellow-300 text-xl" aria-label="Switch to dark mode">
+        🌙
+      </button>
+    </div>
+  </div>
+    </header>
+
     <b>This website is under development</b>
     <p>Next Updates:</p>
-    <ul>  
-         <li>CSS design update, dark mode and basic transitions</li>
-         <li>Add projects in portifolio section</li>
-         <li>Add an AUTH/Login page</li>
+    <ul>
+      <li>CSS design update, dark mode and basic transitions</li>
+      <li>Add projects in portifolio section</li>
+      <li>Add an AUTH/Login page</li>
     </ul>
     <p>Come back soon for changes!</p>
     
- </body> 
+  </div>
+
+  <script src="scripts/theme-toggle.js"></script>
+  <!-- LiveReload (development only) -->
+  <% if (process.env.NODE_ENV === 'development') { %>
+    <script src="http://localhost:35729/livereload.js"></script>
+  <% } %>
+</body>
+
 </html>

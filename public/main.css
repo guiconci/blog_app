@@ -2,14 +2,26 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
-    background-color: #f8f9fa; /* light gray */
-    margin-right: 20px;
-    margin-left: 20px;
-    padding: 0;
+    min-height: 100vh; /*body will take the whole screen height*/
+    margin: 0;
+    padding: 0 3px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    /* background: #FBFBF5; */
+}
+
+/* content wrapper set up------------------------------------- */
+#wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding:0;
+    max-width: 960px;
+    flex: 1 0 auto; /* content wrapper take up the remaining space in the flex container. */
 }
 
 header {
-    background-color :rgb(200, 208, 218);
+    /* background-color :rgb(200, 208, 218); */
     margin-right: -20px;
     margin-bottom: 20px;
     margin-left: -20px;

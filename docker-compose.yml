@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    environment:
+      - NODE_ENV=development
+      - USE_CHOKIDAR_POLLING=true
+    ports:
+      - "3000:3000"     # Web app
+      - "35729:35729"   # LiveReload
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      # - ./app_files/database/database.db:/usr/src/app/database/database.db # Correctly bind host DB file
