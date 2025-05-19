@@ -3,7 +3,8 @@
 FROM node:18-alpine
 
 # Set environment to development so devDependencies like nodemon are installed
-ENV NODE_ENV=development
+# ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Install build tools for sqlite3
 RUN apk add --no-cache python3 make g++ sqlite sqlite-dev py3-setuptools

@@ -2,7 +2,7 @@ services:
   app:
     build: .
     environment:
-      - NODE_ENV=development
+      # - NODE_ENV=development
       - USE_CHOKIDAR_POLLING=true
     ports:
       - "3000:3000"     # Web app
