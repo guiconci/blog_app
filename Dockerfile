@@ -26,7 +26,7 @@ EXPOSE 3000
 EXPOSE 35729
 
 # Start the app
-#CMD ["node", "index.js"]
+CMD ["node", "index.js"]
 
 # LIVE RELOAD
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
