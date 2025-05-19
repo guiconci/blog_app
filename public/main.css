@@ -20,12 +20,22 @@ body {
     flex: 1 0 auto; /* content wrapper take up the remaining space in the flex container. */
 }
 
-header {
-    /* background-color :rgb(200, 208, 218); */
+/* header set up------------------------------------- */
+/* header {
+    background-color :rgb(200, 208, 218);
     margin-right: -20px;
-    margin-bottom: 20px;
     margin-left: -20px;
-    padding: 10px
+    padding: 2px
+} */
+
+#head-name {
+    font-family: 'Inter Tight' sans-serif; 
+    font-weight: 500;
+}
+
+header a {
+    font-family: 'Inter Tight' sans-serif; 
+    font-weight: 300;
 }
 
 nav {

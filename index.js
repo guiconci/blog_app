@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
         path.join(__dirname, 'public')
       ], {
         ignoreInitial: true,
-        usePolling: process.env.USE_CHOKIDAR_POLLING === 'true', // 👈 Optional polling toggle
+        usePolling: process.env.USE_CHOKIDAR_POLLING === 'true',
         interval: 300, // ms between checks (if polling)
       });
 
@@ -117,7 +117,6 @@ function initializeDatabaseSchema() {
         }
     })
 }
-
 
 // Handle requests to the home page 
 app.get('/', (req, res) => {
