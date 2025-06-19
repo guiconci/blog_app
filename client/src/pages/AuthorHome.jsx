@@ -11,12 +11,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useImageUpload } from "../hooks/useImageUpload";
+const API = process.env.REACT_APP_API_URL;
 
 //Request to Del thumbnail from DB based on public ID
 const delThumbnailFromDb = async (thumbnailUrl, thumbnailPublicId) => {
   if (thumbnailUrl.startsWith("https://res.cloudinary.com")) {
     try {
-      const res = await fetch("http://localhost:3000/api/delete-image", {
+      const res = await fetch("`${API}/api/delete-image`", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ public_id: thumbnailPublicId }),
@@ -40,7 +41,7 @@ const AuthorHome = () => {
   const { delImagesFromDb } = useImageUpload();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/author-home")
+    fetch(`${API}/api/author-home`)
       .then(res => res.json())
       .then(data => {
         setPosts(data.blog_posts);
@@ -63,7 +64,7 @@ const AuthorHome = () => {
       window.alert("You can't do this as a guest.");
       return;
     }
-    const res = await fetch("http://localhost:3000/api/toggle-show-on-home", {
+    const res = await fetch(`${API}/api/toggle-show-on-home`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,7 +83,7 @@ const AuthorHome = () => {
   const togglePublish = async (postID, userId) => {
     // Checks if post belongs to current logged used.
     if (!handlePermissionsFrontEnd(userId)) return;
-    const res = await fetch("http://localhost:3000/api/toggle-publish-post", {
+    const res = await fetch(`${API}/api/toggle-publish-post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +104,7 @@ const AuthorHome = () => {
     const confirm = window.confirm("Are you sure you want to permanently delete this post? This action cannot be undone.");
     if (!confirm) return;
 
-    const res = await fetch("http://localhost:3000/api/delete-post", {
+    const res = await fetch(`${API}/api/delete-post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -225,7 +226,7 @@ const AuthorHome = () => {
                   <button
                     className="click-allowed flex items-center gap-1"
                     onClick={() => {
-                      navigator.clipboard.writeText(`http://localhost:3000/reader-article?blogPostId=${post.post_id}`);
+                      navigator.clipboard.writeText(`${API}/reader-article?blogPostId=${post.post_id}`);
                       alert("Link copied to clipboard");
                     }}>
                     <ClipboardIcon className="w-5 h-5 shrink-0" /> Copy Link

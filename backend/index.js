@@ -127,7 +127,7 @@ app.get('/', (req, res) => {
 
 const cors = require("cors");
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://www.gconci.com/",
   credentials: true,
   methods: ["GET", "POST"]
 }));
