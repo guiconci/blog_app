@@ -213,7 +213,9 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                             if (embedUrl) {
                                 editor?.chain().focus().insertContent({
                                     type: "iframe",
-                                    attrs: { src: embedUrl },
+                                    attrs: {
+                                        src: embedUrl,
+                                    },
                                 }).run();
                             } else {
                                 alert("Invalid YouTube URL.");

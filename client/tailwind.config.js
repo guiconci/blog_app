@@ -40,6 +40,14 @@ module.exports = {
             h2: { color: theme('colors.textMain.light') },
             h3: { color: theme('colors.textMain.light') },
             code: { color: theme('colors.textMain.light') },
+            iframe: {
+              display: 'block',
+              margin: '0 auto',
+              maxWidth: '700px',
+              width: '100%',
+              /* let the browser keep its intrinsic ratio: */
+              aspectRatio: '16/9',
+            },
           },
         },
         invert: {

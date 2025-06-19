@@ -411,16 +411,7 @@ const PostEditor = () => {
                         </button>
                         <button type="button" onClick={handleCancel} className="click-danger text-textMain-light dark:text-textMain-dark">
                             Cancel
-                        </button>
-                        <button type="button" className="click-allowed"
-                            onClick={() => {
-                                console.log("Unused:", getUnusedImagesRef.current?.());
-                                console.log("Used:", getUsedImagesRef.current?.());
-                                console.log("Thumbs:", thumbnailUploads);
-
-                            }}
-                        >
-                            TEST IMAG MANAGEMENT</button>
+                        </button>                        
                     </div>
                 </form>
             </div>

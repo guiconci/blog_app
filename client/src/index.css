@@ -55,6 +55,15 @@ img.ProseMirror-selectednode {
   outline-color: theme('colors.highlight2.dark');
 }
 
+.ProseMirror-selectednode iframe {
+  @apply outline outline-2 outline-offset-2 rounded;
+  outline-color: theme('colors.highlight2.light');
+}
+
+.dark .ProseMirror-selectednode iframe {
+  outline-color: theme('colors.highlight2.dark');
+}
+
 /* Iframe selection uses same highlight1 */
 .ProseMirror-selectednode .iframe-wrapper {
   outline: 3px solid theme('colors.highlight2.light');
