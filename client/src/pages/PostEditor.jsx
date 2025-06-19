@@ -7,6 +7,7 @@ import { useUnsavedChanges } from "../context/unsavedChangesContext";
 import { usePrompt } from "../hooks/usePrompt";
 import { useImageUpload } from "../hooks/useImageUpload";
 import { LinkIcon, ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/outline";
+const API = process.env.REACT_APP_API_URL;
 
 // Replaced by the logic to add unused thumbnails to unused images list abd batch deletion in Backend.
 // const delThumbnailFromDb = async (thumbnailUrl, thumbnailPublicId) => {
@@ -42,7 +43,7 @@ import { LinkIcon, ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/outlin
 
 const createPostInDb = async (postData) => {
     try {
-        await fetch("http://localhost:3000/api/create-post", {
+        await fetch(`${API}/api/create-post`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +58,7 @@ const createPostInDb = async (postData) => {
 
 const updatePostInDb = async (postData) => {
     try {
-        await fetch("http://localhost:3000/api/update-post", {
+        await fetch(`${API}/api/update-post`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -95,7 +96,7 @@ const PostEditor = () => {
 
     useEffect(() => {
         if (isEditMode) {
-            fetch(`http://localhost:3000/api/author-edit?blogPostId=${postId}`, {
+            fetch(`${API}/api/author-edit?blogPostId=${postId}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${localStorage.getItem("token")}`

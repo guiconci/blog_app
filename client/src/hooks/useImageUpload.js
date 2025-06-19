@@ -1,4 +1,5 @@
 import { useState } from "react";
+const API = process.env.REACT_APP_API_URL;
 
 export function useImageUpload(onInsert) {
   const [isUploading, setIsUploading] = useState(false);
@@ -13,7 +14,7 @@ export function useImageUpload(onInsert) {
       const formData = new FormData();
       formData.append("image", file);
 
-      const res = await fetch("http://localhost:3000/api/upload-image", {
+      const res = await fetch(`${API}/api/upload-image`, {
         method: "POST",
         headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`},
         body: formData,
@@ -42,7 +43,7 @@ export function useImageUpload(onInsert) {
   const delImagesFromDb = async (images) => {
     if (images.length === 0) return console.log('delImagesFromDb: unused imgs = 0 no API call needed');
     try {
-      const res = await fetch("http://localhost:3000/api/delete-images", {
+      const res = await fetch(`${API}/api/delete-images`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+const API = process.env.REACT_APP_API_URL;
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -8,7 +9,7 @@ const Home = () => {
   const [blogDescription, setBlogDescription] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/author-home")
+    fetch(`${API}/api/author-home`)
       .then((res) => res.json())
       .then((data) => {
         setBlogName(data.blog_name);

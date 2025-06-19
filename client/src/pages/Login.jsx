@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+const API = process.env.REACT_APP_API_URL;
 
 const Login = () => {
     const [user, setUser] = useState("guest");
@@ -17,7 +18,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("http://localhost:3000/api/login", {
+            const res = await fetch(`${API}/api/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username: user, password }),

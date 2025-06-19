@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
+const API = process.env.REACT_APP_API_URL;
 
 const ReaderArticle = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/reader-article?blogPostId=${id}`)
+    fetch(`${API}/api/reader-article?blogPostId=${id}`)
       .then(res => res.json())
       .then(data => setPost(data.blog_post))
       .catch(err => console.error("Failed to load post:", err));
