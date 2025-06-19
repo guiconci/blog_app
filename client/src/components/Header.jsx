@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { Link } from "react-router-dom";
 
 const Header = () => {
     // Set use state of darkMode and setDarkMode to false in the beginning
@@ -52,8 +53,8 @@ const Header = () => {
                 <div className="flex items-center gap-4">
                     {/* Login Link only shows when not logged */}
                     {!localStorage.getItem("role") ?
-                        (<a style={{ fontFamily: "'Inter', sans-serif" }} href="/login"
-                            className="text-gray-700 dark:text-gray-300 hover:underline">Login</a>)
+                        (<Link style={{ fontFamily: "'Inter', sans-serif" }} href="/login"
+                            className="text-gray-700 dark:text-gray-300 hover:underline">Login</Link>)
                         :
                         (
                             <div className="flex items-center gap-4">
