@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+}
+
+button.click-allowed {
+  @apply w-auto px-3 py-2 rounded text-sm font-medium text-white flex items-center 
+  justify-center gap-2 bg-highlight2-light dark:bg-highlight2-dark hover:opacity-90;
+}
+
+button.click-not-allowed {
+  @apply w-auto px-3 py-2 rounded text-sm font-medium text-white flex items-center 
+  justify-center gap-2 bg-buttonDisabled-light dark:bg-buttonDisabled-dark cursor-not-allowed;
+}
+
+#modal-box button.click-allowed {
+  @apply w-full py-2 rounded text-sm font-medium text-white flex items-center 
+  justify-center gap-2 bg-highlight2-light dark:bg-highlight2-dark hover:opacity-90;
+}
+
+#modal-box button.click-not-allowed {
+  @apply w-full py-2 rounded text-sm font-medium text-white flex items-center 
+  justify-center gap-2 bg-gray-300 dark:bg-zinc-700 cursor-not-allowed;
+}
+
+/* Removes focus from editor area border hiding cursor */
+.tiptap:focus {
+  outline: none;
+}
+
+/* Show clicked image focused with highlight1 */
+img.ProseMirror-selectednode {
+  @apply outline outline-2 outline-offset-2 rounded;
+  outline-color: theme('colors.highlight2.light');
+}
+
+.dark img.ProseMirror-selectednode {
+  outline-color: theme('colors.highlight2.dark');
+}
+
+/* Iframe selection uses same highlight1 */
+.ProseMirror-selectednode .iframe-wrapper {
+  outline: 3px solid theme('colors.highlight2.light');
+}
+
+.dark .ProseMirror-selectednode .iframe-wrapper {
+  outline: 3px solid theme('colors.highlight2.dark');
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Dark mode */
+.dark ::-webkit-scrollbar-track {
+  background: #2a2a3b; /* match subtleDark */
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #515570; /* match highlight2.dark */
+}

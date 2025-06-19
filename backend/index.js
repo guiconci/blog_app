@@ -8,6 +8,9 @@ const express = require('express');
 const app = express();
 const port = 3000;
 var bodyParser = require("body-parser");
+require('dotenv').config();
+
+
 
 // 🔹 NEW: LiveReload setup (only for development)
 const livereload = require("livereload");
@@ -15,6 +18,7 @@ const connectLiveReload = require("connect-livereload");
 const path = require('path'); // already imported later, just moved up here
 const chokidar = require('chokidar'); //watch changes in files
 
+// only runs live reload if NODE_ENV is not set to production in docker file
 if (process.env.NODE_ENV !== 'production') {
     const liveReloadServer = livereload.createServer({ port: 35729, host: "0.0.0.0" });
 
@@ -61,10 +65,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // set up to parse json
+app.use(bodyParser.urlencoded({ extended: true })); //parse form data
 app.set('view engine', 'ejs'); // set the app to use ejs for rendering
 app.use(express.static(__dirname + '/public')); // set location of static files
-
+ 
 // Set up SQLite
 // Items in the global namespace are accessible throught out the node application
 const sqlite3 = require('sqlite3').verbose();
@@ -110,7 +115,7 @@ function initializeDatabaseSchema() {
 
     db.exec(schemaSQL, (err) => {
         if (err) {
-            console.error("Error initializing DB schema");
+            console.error("Error initializing DB schema: ", err.message);
         }
         else {
             console.log("Database schema created successfully");
@@ -125,6 +130,14 @@ app.get('/', (req, res) => {
 });
 
 // Add all the route handlers in usersRoutes to the app under the path /users
+
+const cors = require("cors");
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST"]
+}));
+
 const usersRoutes = require('./routes/users');
 app.use('/users', usersRoutes);
 
@@ -137,6 +150,12 @@ app.use('/', blogSettingsRoutes);
 const blogPostsRoutes = require('./routes/blog-posts');
 app.use('/', blogPostsRoutes);
 
+// Image uploade file routes
+const imageUploadRoutes = require('./routes/images');
+app.use('/', imageUploadRoutes);
+
+const authRoutes = require('./routes/auth');
+app.use('/', authRoutes);
 
 // Make the web application listen for HTTP requests
 app.listen(port, () => {

@@ -18,7 +18,7 @@
         darkMode: 'class'
       }
     }
-  </script>
+  </script> 
 
   <!-- Local css public -->
   <link rel="stylesheet" type="text/css" href="main.css" />
@@ -33,15 +33,13 @@
     <!-- Include header from partials folder -->
     <%- include('partials/header.ejs')  %>
 
-    <b>This website is under development</b>
     <p>Next Updates:</p>
     <ul>
-      <li>CSS design update, dark mode (done for home) and basic transitions</li>
+      <li>CSS design update, dark mode (done for home), and basic transitions</li>
       <li>Add projects in portifolio section</li>
       <li>Add an AUTH/Login page</li>
     </ul>
     <p>Come back soon for changes!</p>
-    test
     <div class="h-[2000px] bg-gray-100">Scroll down to see the effect</div>
   </div>
 
@@ -49,7 +47,6 @@
   <!-- LiveReload (development only) -->
   <% if (process.env.NODE_ENV==='development' ) { %>
     <script src="http://localhost:35729/livereload.js"></script>
-    <% console.log('tet env') %>
   <% } %> 
   
 </body>
