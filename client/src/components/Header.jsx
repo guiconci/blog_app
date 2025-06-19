@@ -27,6 +27,12 @@ const Header = () => {
         //this part sets it to run only once
     }, []);
 
+    useEffect(() => {
+        const onResize = () => setOpenMenu(false);
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
+
     // Toggle modes logic for the button
     const toggleDarkMode = () => {
         const newMode = !darkMode;
@@ -49,7 +55,7 @@ const Header = () => {
         <header className="sticky top-0 px-1 py-1 mb-2 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur shadow dark:shadow-white/10 transition-all duration-300">
             <div className="max-w-screen-lg mx-auto px-0.5 py-0.5 flex justify-between items-start">
                 {/* Left: Your Name */}
-                <div id="head-name" className="flex items-center text-lg font-semibold text-gray-800 dark:text-white">
+                <div id="head-name" className="flex my-auto items-center text-lg font-semibold text-gray-800 dark:text-white">
                     Guilherme Conci Dev
                 </div>
 
@@ -92,12 +98,12 @@ const Header = () => {
                             aria-label="Toggle menu"
                         >
                             {/* simple hamburger icon */}
-                            {openMenu ? 
-                                <BarsArrowUpIcon className="h-6 w-6"/> : 
-                                <BarsArrowDownIcon className="h-6 w-6"/>}
+                            {openMenu ?
+                                <BarsArrowUpIcon className="h-6 w-6" /> :
+                                <BarsArrowDownIcon className="h-5 w-6" />}
                         </button>
                     )}
-                    
+
 
 
                     {/* Mobile menu panel */}
@@ -105,8 +111,10 @@ const Header = () => {
                         <nav className="absolute flex flex-col top-full right-0 mt-2 p-4 space-y-2 rounded 
                             bg-background-light/95 dark:bg-background-dark/95 shadow-2xl
                             shadow-black/50 dark:shadow-highlight2-dark/25 dark:shadow-sm md:hidden">
-                            <Link style={{ fontFamily: "'Inter', sans-serif" }} to="/author-home"
-                                className="text-gray-700 dark:text-gray-300 hover:underline">
+                            <Link style={{ fontFamily: "'Inter', sans-serif" }} to="/author-home" 
+                            onClick={() => setOpenMenu(false)}
+                            className="text-gray-700 dark:text-gray-300 hover:underline"
+                            >
                                 Manage
                             </Link>
                             <Link style={{ fontFamily: "'Inter Tight', sans-serif", fontWeight: 300 }} onClick={handleLogOut}
