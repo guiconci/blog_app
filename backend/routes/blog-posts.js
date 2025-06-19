@@ -3,56 +3,40 @@ const express = require("express");
 const router = express.Router();
 const authenticateToken = require("../utils/authentication");
 const rateLimit = require("express-rate-limit");
+const ENABLE_LEGACY_ROUTES = process.env.ENABLE_LEGACY_ROUTES === 'true';
 
 const createPostLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,  // 1 hour
-  max:      30,              // limit each IP to 30 creation calls per window
-  standardHeaders: true,
-  legacyHeaders:  false,
-  message: { error: "Too many posts created — please try again later." }
+    windowMs: 60 * 60 * 1000,  // 1 hour
+    max: 30,              // limit each IP to 30 creation calls per window
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many posts created — please try again later." }
 });
 
 const updatePostLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,  // 1 hour
-  max:      60,              // 60 updates per IP per hour
-  standardHeaders: true,
-  legacyHeaders:  false,
-  message: { error: "Too many edits — slow down a bit!" }
+    windowMs: 60 * 60 * 1000,  // 1 hour
+    max: 60,              // 60 updates per IP per hour
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many edits — slow down a bit!" }
 });
 
 // 10 deletions per hour
 const deleteLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  max:      10,
-  standardHeaders: true,
-  legacyHeaders:  false,
-  message: { error: "Too many deletions—please wait before deleting more posts." }
+    windowMs: 60 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many deletions—please wait before deleting more posts." }
 });
 
 // 60 toggles per hour
 const toggleLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  max:      60,
-  standardHeaders: true,
-  legacyHeaders:  false,
-  message: { error: "Too many toggles—please slow down." }
-});
-
-
-// Route to get data from existing post for editting OLD ROUTE FOR EJS TEMPORARY
-router.get("/edit-new-post", (req, res, next) => {
-    let sqlqueryUsers = "SELECT * FROM users";
-    db.all(sqlqueryUsers, (err, users) => {
-        if (err) {
-            console.log(err);
-        } else {
-            //  render the author-edit page with the results
-            res.render("author-edit.ejs", {
-                blog_post: null,
-                users: users
-            });
-        }
-    });
+    windowMs: 60 * 60 * 1000,
+    max: 60,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many toggles—please slow down." }
 });
 
 // POST request to CREATE a new blog post
@@ -124,24 +108,6 @@ router.post("/api/update-post", authenticateToken, updatePostLimiter, (req, res,
                 if (err2) return res.status(500).json({ error: "Failed to update post" });
                 res.json({ success: true });
             });
-        }
-    );
-});
-
-
-// POST request to publish a blog post OLD EJS ROUTE FORMAT TEMPORARY
-router.post("/publish-post", (req, res, next) => {
-    // Define the query
-    query = `UPDATE blog_posts SET isPublished = 1 WHERE post_id = ?;`
-    query_parameters = [req.body.blogPostId]
-    // Execute the UPDATE query and redirects to the author-home page
-    db.run(query, query_parameters,
-        function (err) {
-            if (err) {
-                next(err); //send the error on to the error handler
-            } else {
-                res.redirect("author-home");
-            }
         }
     );
 });
@@ -232,43 +198,77 @@ router.post("/api/delete-post", authenticateToken, deleteLimiter, (req, res, nex
     );
 });
 
-
-// route to add likes to the blog_posts table
-router.post("/add-like", (req, res, next) => {
-    // Define the query
-    query = "UPDATE blog_posts SET likes = likes + 1 WHERE post_id = ?;"
-    query_parameters = [req.body.blogPostId]
-
-    // Execute the UPDATE query and redirects to the author-home page
-    db.run(query, query_parameters,
-        function (err) {
+//OLD ROUTES KEPT FOR LEGACY CODE MAINTENANCE AND POSSIBLE FEATURE RE-IMPLEMENTATION
+if (ENABLE_LEGACY_ROUTES) {
+    // Route to get data from existing post for editting OLD ROUTE FOR EJS TEMPORARY
+    router.get("/edit-new-post", (req, res, next) => {
+        let sqlqueryUsers = "SELECT * FROM users";
+        db.all(sqlqueryUsers, (err, users) => {
             if (err) {
-                next(err); //send the error on to the error handler
+                console.log(err);
             } else {
-                res.redirect("/reader-article?blogPostId=" + req.body.blogPostId);
+                //  render the author-edit page with the results
+                res.render("author-edit.ejs", {
+                    blog_post: null,
+                    users: users
+                });
             }
-        }
-    );
-});
+        });
+    });
 
-// route to handle comments to the comments table
-router.post("/add-comment", (req, res, next) => {
-    // Define the query
-    query = `INSERT INTO comments (content, commenter_name, post_id, comment_date) 
+    // POST request to publish a blog post OLD EJS ROUTE FORMAT TEMPORARY
+    router.post("/publish-post", (req, res, next) => {
+        // Define the query
+        query = `UPDATE blog_posts SET isPublished = 1 WHERE post_id = ?;`
+        query_parameters = [req.body.blogPostId]
+        // Execute the UPDATE query and redirects to the author-home page
+        db.run(query, query_parameters,
+            function (err) {
+                if (err) {
+                    next(err); //send the error on to the error handler
+                } else {
+                    res.redirect("author-home");
+                }
+            }
+        );
+    });
+
+    // route to add likes to the blog_posts table
+    router.post("/add-like", (req, res, next) => {
+        // Define the query
+        query = "UPDATE blog_posts SET likes = likes + 1 WHERE post_id = ?;"
+        query_parameters = [req.body.blogPostId]
+
+        // Execute the UPDATE query and redirects to the author-home page
+        db.run(query, query_parameters,
+            function (err) {
+                if (err) {
+                    next(err); //send the error on to the error handler
+                } else {
+                    res.redirect("/reader-article?blogPostId=" + req.body.blogPostId);
+                }
+            }
+        );
+    });
+
+    // route to handle comments to the comments table
+    router.post("/add-comment", (req, res, next) => {
+        // Define the query
+        query = `INSERT INTO comments (content, commenter_name, post_id, comment_date) 
             VALUES (?, ?, ?, CURRENT_TIMESTAMP);`
-    query_parameters = [req.body.comment, req.body.commenter, req.body.blogPostId]
-    // Execute the INSERT query and redirects to the author-home page
-    db.run(query, query_parameters,
-        function (err) {
-            if (err) {
-                next(err); //send the error on to the error handler
-            } else {
-                res.redirect("/reader-article?blogPostId=" + req.body.blogPostId);
+        query_parameters = [req.body.comment, req.body.commenter, req.body.blogPostId]
+        // Execute the INSERT query and redirects to the author-home page
+        db.run(query, query_parameters,
+            function (err) {
+                if (err) {
+                    next(err); //send the error on to the error handler
+                } else {
+                    res.redirect("/reader-article?blogPostId=" + req.body.blogPostId);
+                }
             }
-        }
-    );
-});
-
+        );
+    });
+}
 
 // Export the router object so index.js can access it
 module.exports = router;
