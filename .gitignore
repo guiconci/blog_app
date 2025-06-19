@@ -17,4 +17,4 @@ node_modules
 hash-password.js
 
 # Dev docker file
-DockerfileDev
+Dockerfile.dev

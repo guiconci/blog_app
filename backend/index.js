@@ -13,56 +13,50 @@ require('dotenv').config();
 
 
 // 🔹 NEW: LiveReload setup (only for development)
-const livereload = require("livereload");
-const connectLiveReload = require("connect-livereload");
+// const livereload = require("livereload");
+// const connectLiveReload = require("connect-livereload");
 const path = require('path'); // already imported later, just moved up here
-const chokidar = require('chokidar'); //watch changes in files
+// const chokidar = require('chokidar'); //watch changes in files
 
 // only runs live reload if NODE_ENV is not set to production in docker file
-if (process.env.NODE_ENV !== 'production') {
-    const liveReloadServer = livereload.createServer({ port: 35729, host: "0.0.0.0" });
+// if (process.env.NODE_ENV !== 'production') {
+//     const liveReloadServer = livereload.createServer({ port: 35729, host: "0.0.0.0" });
 
-    //watches views and public folders
-    const watcher = chokidar.watch([
-        path.join(__dirname, 'views'),
-        path.join(__dirname, 'public')
-      ], {
-        ignoreInitial: true,
-        usePolling: process.env.USE_CHOKIDAR_POLLING === 'true',
-        interval: 300, // ms between checks (if polling)
-      });
+//     //watches views and public folders
+//     const watcher = chokidar.watch([
+//         path.join(__dirname, 'views'),
+//         path.join(__dirname, 'public')
+//       ], {
+//         ignoreInitial: true,
+//         usePolling: process.env.USE_CHOKIDAR_POLLING === 'true',
+//         interval: 300, // ms between checks (if polling)
+//       });
 
-      watcher.on('ready', () => {
-        console.log('👀 Chokidar is watching...');
-        console.log(watcher.getWatched());
-      });
+//       watcher.on('ready', () => {
+//         console.log('👀 Chokidar is watching...');
+//         console.log(watcher.getWatched());
+//       });
       
-      watcher.on('change', (filePath) => {
-        console.log('🔁 File changed:', filePath);
-        liveReloadServer.refresh('/');
-      });
+//       watcher.on('change', (filePath) => {
+//         console.log('🔁 File changed:', filePath);
+//         liveReloadServer.refresh('/');
+//       });
 
-    console.log('LiveReload server listening on port 35729');
+//     console.log('LiveReload server listening on port 35729');
 
-    liveReloadServer.server.on('connection', () => {
-        console.log('✅ LiveReload WebSocket connected');
-    });
+//     liveReloadServer.server.on('connection', () => {
+//         console.log('✅ LiveReload WebSocket connected');
+//     });
 
-    liveReloadServer.watch([
-        path.join(__dirname, 'public'), 
-        path.join(__dirname, 'views')
-    ]);
+//     liveReloadServer.watch([
+//         path.join(__dirname, 'public'), 
+//         path.join(__dirname, 'views')
+//     ]);
     
 
-    app.use(connectLiveReload());
+//     app.use(connectLiveReload());
 
-    // Ensure browser reloads after server detects a change
-    // liveReloadServer.server.once("connection", () => {
-    //     setTimeout(() => {
-    //         liveReloadServer.refresh("/");
-    //     }, 100);
-    // });
-}
+// }
 
 // Middleware
 app.use(bodyParser.json()); // set up to parse json
