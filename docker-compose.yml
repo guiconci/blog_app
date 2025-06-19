@@ -2,13 +2,13 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     environment:
       # - NODE_ENV=development
       - USE_CHOKIDAR_POLLING=true
     ports:
       - "3000:3000"     # Web app
-      - "35729:35729"   # LiveReload
+      # - "35729:35729"   # LiveReload
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
@@ -19,7 +19,7 @@ services:
   frontend:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true

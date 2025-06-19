@@ -36,7 +36,7 @@ const path = require('path'); // already imported later, just moved up here
 //         console.log('👀 Chokidar is watching...');
 //         console.log(watcher.getWatched());
 //       });
-      
+
 //       watcher.on('change', (filePath) => {
 //         console.log('🔁 File changed:', filePath);
 //         liveReloadServer.refresh('/');
@@ -52,7 +52,7 @@ const path = require('path'); // already imported later, just moved up here
 //         path.join(__dirname, 'public'), 
 //         path.join(__dirname, 'views')
 //     ]);
-    
+
 
 //     app.use(connectLiveReload());
 
@@ -63,7 +63,7 @@ app.use(bodyParser.json()); // set up to parse json
 app.use(bodyParser.urlencoded({ extended: true })); //parse form data
 app.set('view engine', 'ejs'); // set the app to use ejs for rendering
 app.use(express.static(__dirname + '/public')); // set location of static files
- 
+
 // Set up SQLite
 // Items in the global namespace are accessible throught out the node application
 const sqlite3 = require('sqlite3').verbose();
@@ -77,23 +77,23 @@ const schemaPath = path.join(__dirname, 'db_schema.sql')
 const dbExists = fs.existsSync(dbPath);
 
 //Connect to SQLite and creates the file if it doesnt exists, based on schema
-global.db = new sqlite3.Database(dbPath, function(err){
-    if(err){
+global.db = new sqlite3.Database(dbPath, function (err) {
+    if (err) {
         console.error(err);
         process.exit(1); // bail out we can't connect to the DB
     } else {
         console.log(`Database connected at: ${dbPath}`);
         //global.db.run("PRAGMA foreign_keys=ON"); // tell SQLite to pay attention to foreign key constraints
 
-        if(!dbExists) {
+        if (!dbExists) {
             console.log("Database does not exist, initializing from schema...")
-            initializeDatabaseSchema ();
+            initializeDatabaseSchema();
         }
         else {
-            console.log ("Database exists, skippng schema initialization")
+            console.log("Database exists, skippng schema initialization")
         }
 
-        global.db.run("PRAGMA foreign_keys=ON", function(fkErr) {
+        global.db.run("PRAGMA foreign_keys=ON", function (fkErr) {
             if (fkErr) {
                 console.error("Failed to enable foreign keys:", fkErr);
             } else {
@@ -124,13 +124,17 @@ app.get('/', (req, res) => {
 });
 
 // Add all the route handlers in usersRoutes to the app under the path /users
-
 const cors = require("cors");
-app.use(cors({
-  origin: "https://www.gconci.com",
+
+const dev = process.env.NODE_ENV === "development";
+const corsOptions = {
+  origin: dev
+    ? "http://localhost:5173"
+    : "https://www.gconci.com",
   credentials: true,
-  methods: ["GET", "POST"]
-}));
+  methods: ["GET","POST"]
+};
+app.use(cors(corsOptions));
 
 const usersRoutes = require('./routes/users');
 app.use('/users', usersRoutes);
