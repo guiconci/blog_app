@@ -1,9 +1,18 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { PhotoIcon, LinkIcon, ArrowUpTrayIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useImageUpload } from "../hooks/useImageUpload";
 
+
 const ImageInsertModal = ({ isOpen, onClose, onInsertImage }) => {
     const imageUrlInputRef = useRef(null);
+    const [mounted, setMounted] = useState(false);
+
+    // Wait until we’re on the client
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const {
         file, setFile,
         url, setUrl,
@@ -15,16 +24,17 @@ const ImageInsertModal = ({ isOpen, onClose, onInsertImage }) => {
         onClose();
     });
 
-    if (!isOpen) return null;
+    // if (!isOpen) return null;
+    if (!isOpen || !mounted) return null;
 
-    return (
+    return createPortal(
         <div id="blur-bg-modal" className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div id="modal-box" className="bg-background-light dark:bg-background-dark p-6 rounded-xl shadow-xl w-[320px] space-y-4 border border-highlight1-light dark:border-highlight1-dark">
+            <div id="modal-box" className="bg-background-light dark:bg-background-dark p-6 rounded-xl shadow-xl dark:shadow-white/10 w-[320px] space-y-4 border border-highlight1-light dark:border-highlight1-dark">
                 <div className="flex items-center gap-2 text-lg font-semibold text-textMain-light dark:text-textMain-dark">
                     <PhotoIcon className="w-6 h-6" />
                     Insert Image
                 </div>
-                
+
                 <div className="space-y-3">
                     {/* URL Input */}
                     <input
@@ -37,7 +47,7 @@ const ImageInsertModal = ({ isOpen, onClose, onInsertImage }) => {
                     />
                     <button
                         type="button"
-                        onClick= {() => {
+                        onClick={() => {
                             if (imageUrlInputRef.current?.checkValidity()) {
                                 insertFromUrl();
                             } else {
@@ -62,8 +72,8 @@ const ImageInsertModal = ({ isOpen, onClose, onInsertImage }) => {
                         disabled={!file || isUploading}
                         className={
                             `${file && !isUploading
-                                    ? "click-allowed"
-                                    : "click-not-allowed"}`}
+                                ? "click-allowed"
+                                : "click-not-allowed"}`}
                     >
                         <ArrowUpTrayIcon className="w-5 h-5" />
                         {isUploading ? "Uploading..." : "Upload from PC"}
@@ -84,7 +94,8 @@ const ImageInsertModal = ({ isOpen, onClose, onInsertImage }) => {
                     Cancel
                 </button>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

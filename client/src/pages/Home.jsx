@@ -36,13 +36,13 @@ const Home = () => {
         </section>
 
         <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-6">Featured Posts</h2>
+          <h2 className="text-2xl font-semibold mb-6">Projects</h2>
           <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
             {posts.map((post, index) => (
               <Link
                 to={`/reader-article/${post.post_id}`}
                 key={post.post_id}
-                className="block rounded overflow-hidden shadow-lg bg-background-subtle dark:bg-background-subtleDark hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] animate-fade-in-up delay-[${index * 75}ms]"
+                className="block rounded overflow-hidden shadow-lg dark:drop-shadow-lg dark:shadow-white/10 bg-background-subtle dark:bg-background-subtleDark hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] animate-fade-in-up delay-[${index * 75}ms]"
               >
                 {post.thumbnailUrl && (
                   <img

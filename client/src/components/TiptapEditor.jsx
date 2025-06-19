@@ -231,8 +231,9 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                     onInsertImage={(url, public_id) => insertImage(url, public_id)}
                 />
             </div>
-            <div className="px-1 py-2">
-                <EditorContent editor={editor} className="tiptap prose dark:prose-invert max-w-none" />
+            {/* <div className="px-1 py-2"> */}
+            <div className="px-1 py-2" onClick={() => editor?.chain().focus().run()}>
+                <EditorContent editor={editor} className="min-h-[40vh] tiptap prose dark:prose-invert max-w-none" />
             </div>
         </div>
     );
