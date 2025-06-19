@@ -42,11 +42,12 @@ module.exports = {
             code: { color: theme('colors.textMain.light') },
             iframe: {
               display: 'block',
-              margin: '0 auto',
-              maxWidth: '700px',
+              margin: '8px auto',
+              maxWidth: '750px',
               width: '100%',
               /* let the browser keep its intrinsic ratio: */
               aspectRatio: '16/9',
+              borderRadius: '5px'
             },
           },
         },

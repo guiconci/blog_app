@@ -70,7 +70,7 @@ export function useTiptapEditor(initialContent, initialImages = []) {
 
     const insertImage = useCallback((url, public_id) => {
         if (!editor?.commands) return;
-        editor.chain().focus().setImage({ src: url, width: 750, style: "border-radius: 5px; display: block; margin: 0 auto;" }).run();
+        editor.chain().focus().setImage({ src: url, width: 750, style: "border-radius: 5px; display: block; margin: 8px auto;" }).run();
         if (public_id) setUploadedImages(prev => [...prev, { url, public_id }]); //only add to array, images with public id meaning they were uploded.
     }, [editor]);
 
