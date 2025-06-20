@@ -1,10 +1,15 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import hljs from 'highlight.js';
+import { all } from 'lowlight'
+// import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/atom-one-dark.css'
 const API = process.env.REACT_APP_API_URL;
 
 const ReaderArticle = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const contentRef = useRef();
 
   useEffect(() => {
     fetch(`${API}/api/reader-article?blogPostId=${id}`)
@@ -12,6 +17,13 @@ const ReaderArticle = () => {
       .then(data => setPost(data.blog_post))
       .catch(err => console.error("Failed to load post:", err));
   }, [id]);
+
+  useEffect(() => {
+    if (!post) return;              // 2️⃣ guard
+    const codes = contentRef.current.querySelectorAll('pre code');
+    codes.forEach(block => hljs.highlightElement(block));
+  }, [post?.content]);               // 3️⃣ only after post.content is set
+
 
   if (!post) return (
     <div className="min-h-screen bg-background-subtle dark:bg-background-subtleDark text-textMain-light dark:text-textMain-dark">
@@ -31,6 +43,7 @@ const ReaderArticle = () => {
           By {post.user_name} • Last updated: {post.last_modified}
         </p>
         <div
+          ref={contentRef}
           className="prose dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />

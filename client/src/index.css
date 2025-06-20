@@ -45,6 +45,11 @@ button.click-not-allowed {
   outline: none;
 }
 
+/* Highlight CODE BLOCK */
+.hljs {
+  background: transparent !important;
+}
+
 /* Show clicked image focused with highlight1 */
 img.ProseMirror-selectednode {
   @apply outline outline-2 outline-offset-2 rounded;

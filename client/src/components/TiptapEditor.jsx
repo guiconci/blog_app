@@ -225,6 +225,9 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                     >
                         Embed Video
                     </button>
+                    <button className="px-2 py-1 text-sm border rounded" type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
+                        {'</>'} Code
+                    </button>
                 </div>
 
                 <ImageInsertModal

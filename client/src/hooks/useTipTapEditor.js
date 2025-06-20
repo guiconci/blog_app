@@ -1,11 +1,20 @@
 import { useEditor } from "@tiptap/react";
+import { useState, useEffect, useCallback } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Iframe from "../components/extensions/Iframe";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import Heading from "@tiptap/extension-heading";
-import { useState, useEffect, useCallback } from "react";
+
+import 'highlight.js/styles/atom-one-dark.css'
+import { createLowlight, all } from 'lowlight'
+// import js from 'highlight.js/lib/languages/javascript'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+const lowlight = createLowlight(all)
+
+
+
 
 // Setting up Image Extension
 const CustomImage = Image.extend({
@@ -63,7 +72,8 @@ export function useTiptapEditor(initialContent, initialImages = []) {
                 levels: [1, 2, 3],
             }),
             Iframe,
-            Underline
+            Underline,
+            CodeBlockLowlight.configure({ lowlight }),
         ],
         content: initialContent,
     });

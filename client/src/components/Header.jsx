@@ -100,11 +100,9 @@ const Header = () => {
                             {/* simple hamburger icon */}
                             {openMenu ?
                                 <BarsArrowUpIcon className="h-6 w-6" /> :
-                                <BarsArrowDownIcon className="h-5 w-6" />}
+                                <BarsArrowDownIcon className="h-6 w-6" />}
                         </button>
                     )}
-
-
 
                     {/* Mobile menu panel */}
                     {openMenu && (
