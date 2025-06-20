@@ -54,7 +54,7 @@ const Home = () => {
                 <div className="p-4">
                   <h3 className="text-xl font-bold mb-2">{post.title}</h3>
                   <p className="text-sm text-gray-700 dark:text-gray-300">
-                    {post.postSummary}
+                    {post.content_summary}
                   </p>
                 </div>
               </Link>

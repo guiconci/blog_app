@@ -147,7 +147,7 @@ const AuthorHome = () => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto p-4 bg-background-light dark:bg-background-dark shadow rounded">
+    <div className="max-w-screen-lg mx-auto mt-2 p-4 bg-background-light dark:bg-background-dark shadow rounded">
       <div className="mb-6">
         <h1 className="text-3xl font-bold">{blogName}</h1>
         <p>{blogDescription}</p>
