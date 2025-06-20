@@ -8,9 +8,9 @@ module.exports = {
     extend: {
       colors: {
         background: {
-          light: "#fdfdfd",         // Light mode editor
+          light: "#F4F3EE",         // Light mode editor
           dark: "#1e1e2f",          // Dark mode editor (softer than black)
-          subtle: "#f5f5f5",        // Light mode outer background
+          subtle: "#ECE8E1",        // Light mode outer background
           subtleDark: "#2a2a3b",    // Dark mode outer background (mild contrast)
         },
         highlight1: {
@@ -26,7 +26,7 @@ module.exports = {
           dark: "#3f3f46" // "zinc-700"
         },
         textMain: {
-          light: "#111827",         // Almost black
+          light: "#2B2D42",         // Almost black
           dark: "#e5e7eb",          // Light gray for readability
         }
       },

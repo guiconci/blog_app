@@ -30,7 +30,7 @@ const Home = () => {
           <h1 className="text-4xl font-bold mb-2 animate-fade-in-up">
             Hi, I'm Guilherme Conci
           </h1>
-          <p className="text-lg text-gray-700 dark:text-gray-300 animate-fade-in-up delay-150">
+          <p className="text-lg animate-fade-in-up delay-150">
             A developer and problem-solver with a background in materials science, now building clean, scalable web tools with React, Node.js, and SQLite. This is my portfolio — where code meets purpose.
           </p>
         </section>
@@ -53,7 +53,7 @@ const Home = () => {
                 )}
                 <div className="p-4">
                   <h3 className="text-xl font-bold mb-2">{post.title}</h3>
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <p className="text-sm">
                     {post.content_summary}
                   </p>
                 </div>
@@ -61,11 +61,10 @@ const Home = () => {
             ))}
           </div>
         </section>
-
-        <footer className="border-t pt-6 mt-10 text-sm text-gray-600 dark:text-gray-400 text-center">
+        {/* <footer className="border-t pt-6 mt-10 text-sm text-gray-600 dark:text-gray-400 text-center">
           <p>&copy; {new Date().getFullYear()} Built with 💻 by Guilherme Conci</p>
           <p className="mt-1">Stay tuned — more posts and insights coming soon.</p>
-        </footer>
+        </footer> */}
       </main>
     </div>
   );
