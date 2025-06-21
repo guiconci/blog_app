@@ -184,6 +184,7 @@ router.post("/api/toggle-show-on-home", authenticateToken, toggleLimiter, (req, 
             //Web socket push
             io.emit("posts:update", posts);
             //Response
+            
             res.json({ success: true, blogPostId, newState: "toggled" });
         });
     });
