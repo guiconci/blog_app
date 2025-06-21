@@ -156,7 +156,7 @@ const AuthorHome = () => {
       <div className="mb-6">
         <a href="/new">
           <button className="click-allowed flex items-center gap-2">
-            <PlusIcon className="w-5 h-5 shrink-0" /> Add New Post
+            <PlusIcon className="w-5 h-5 shrink-0" /> Add New Project
           </button>
         </a>
       </div>
