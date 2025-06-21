@@ -2,6 +2,17 @@ import { EditorContent } from "@tiptap/react";
 import ImageInsertModal from "./ImageInsertModal";
 import { useState, useEffect } from "react";
 import { useTiptapEditor } from "../hooks/useTipTapEditor";
+import {
+    ListBulletIcon,
+    NumberedListIcon,
+    ArrowRightStartOnRectangleIcon,
+    ArrowLeftStartOnRectangleIcon,
+    AlignLeftIcon,
+    Bars3BottomLeftIcon,
+    Bars3CenterLeftIcon,
+    Bars3BottomRightIcon,
+    Bars4Icon,
+} from '@heroicons/react/24/outline'
 
 function convertToEmbedUrl(url) {
     try {
@@ -128,13 +139,40 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                     >
                         Normal
                     </button>
+                    {/* UL Button */}
+                    <button type="button"
+                        title="Unordered List"
+                        className="px-2 py-1 border rounded"
+                        onClick={() => editor.chain().focus().toggleBulletList().run()}>
+                        <ListBulletIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                    {/* OL Button */}
+                    <button type="button"
+                        title="Ordered List"
+                        className="px-2 py-1 border rounded"
+                        onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+                        <NumberedListIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                    {/* Indent / Outdent Buttons*/}
+                    <button type="button"
+                        title="Add Indentation"
+                        className="px-2 py-1 border rounded"
+                        onClick={() => editor.chain().focus().sinkListItem("listItem").run()}>
+                        <ArrowRightStartOnRectangleIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                    <button type="button"
+                        title="Remove Indentation"
+                        className="px-2 py-1 border rounded"
+                        onClick={() => editor.chain().focus().liftListItem("listItem").run()}>
+                        <ArrowLeftStartOnRectangleIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
 
                     {/* Alignment buttons */}
                     {[
-                        { icon: "←", align: "left", buttonTitle: "Text Left" },
-                        { icon: "↔", align: "center", buttonTitle: "Text Center" },
-                        { icon: "→", align: "right", buttonTitle: "Text Right" },
-                        { icon: "≡", align: "justify", buttonTitle: "Text Justified" },
+                        { icon: <Bars3BottomLeftIcon className="h-5 w-5" aria-hidden="true" />, align: "left", buttonTitle: "Text Left" },
+                        { icon: <Bars3CenterLeftIcon  className="h-5 w-5" aria-hidden="true" />, align: "center", buttonTitle: "Text Center" },
+                        { icon: <Bars3BottomRightIcon  className="h-5 w-5" aria-hidden="true" />, align: "right", buttonTitle: "Text Right" },
+                        { icon: <Bars4Icon  className="h-5 w-5" aria-hidden="true" />, align: "justify", buttonTitle: "Text Justified" },
                     ].map(({ icon, align, buttonTitle }) => {
                         const selectionNode = editor?.state?.selection?.node;
                         const isImage = selectionNode?.type?.name === "image";
@@ -183,7 +221,7 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                         onClick={() => setShowImgModal(true)}
                         className="px-2 py-1 border rounded"
                     >
-                        Insert Image
+                        Add Img
                     </button>
                     <button
                         type="button"
@@ -202,7 +240,7 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                         }}
                         className="px-2 py-1 border rounded"
                     >
-                        Resize Image
+                        Resize Img
                     </button>
                     <button
                         type="button"
@@ -223,7 +261,7 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                         }}
                         className="px-2 py-1 text-sm border rounded"
                     >
-                        Embed Video
+                        Video
                     </button>
                     <button className="px-2 py-1 text-sm border rounded" type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
                         {'</>'} Code
