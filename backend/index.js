@@ -126,7 +126,7 @@ const dev = process.env.NODE_ENV === "development";
 const corsOptions = {
     origin: dev
         ? "http://localhost:5173"
-        : "https://www.gconci.com",
+        : process.env.FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST"]
 };
