@@ -60,6 +60,11 @@ module.exports = {
             h2: { color: theme('colors.textMain.dark') },
             h3: { color: theme('colors.textMain.dark') },
             code: { color: theme('colors.textMain.dark') },
+            pre: {
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              overflowX: 'hidden',
+            },
           },
         },
       }),

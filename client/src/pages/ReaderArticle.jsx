@@ -35,7 +35,7 @@ const ReaderArticle = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background-subtle dark:bg-background-subtleDark text-textMain-light dark:text-textMain-dark">
+    <div className="min-h-screen mt-2 bg-background-subtle dark:bg-background-subtleDark text-textMain-light dark:text-textMain-dark">
       {/* <Header /> */}
       <div className="max-w-screen-lg mx-auto p-6 bg-background-light dark:bg-background-dark shadow rounded">
         <h1 className="text-3xl font-bold mb-2">{post.title}</h1>

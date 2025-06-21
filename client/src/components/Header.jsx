@@ -106,9 +106,9 @@ const Header = () => {
 
                     {/* Mobile menu panel */}
                     {openMenu && (
-                        <nav className="absolute flex flex-col top-full right-0 mt-2 p-4 space-y-2 rounded 
-                            bg-background-light/95 dark:bg-background-dark/95 shadow-2xl
-                            shadow-black/50 dark:shadow-highlight2-dark/25 dark:shadow-sm md:hidden">
+                        <nav className="absolute z-60 flex flex-col top-full right-0 mt-2 p-4 space-y-2 rounded 
+                            bg-background-light/95 dark:bg-background-dark/30 shadow-2xl
+                            shadow-black/50 dark:shadow-highlight2-dark/25 dark:shadow-sm md:hidden backdrop-blur-3xl transition-all duration-300">
                             <Link style={{ fontFamily: "'Inter', sans-serif" }} to="/author-home" 
                             onClick={() => setOpenMenu(false)}
                             className="text-gray-700 dark:text-gray-300 hover:underline"

@@ -204,7 +204,7 @@ const AuthorHome = () => {
       <section>
         <div className="flex items-center gap-2 mb-4">
           <PencilIcon className="w-5 h-5 shrink-0" />
-          <h2 className="text-xl font-semibold">Posts</h2>
+          <h2 className="text-xl font-semibold">Projects</h2>
         </div>
         <div className="space-y-4">
           {posts.filter(p => p.isPublished).map(post => (
