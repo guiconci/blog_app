@@ -4,6 +4,7 @@ const router = express.Router();
 const authenticateToken = require("../utils/authentication");
 const ENABLE_LEGACY_ROUTES = process.env.ENABLE_LEGACY_ROUTES === 'true';
 
+
 // Route to index page
 router.get("/", (req, res, next) => {
 

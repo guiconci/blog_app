@@ -41,16 +41,25 @@ const toggleLimiter = rateLimit({
 
 // POST request to CREATE a new blog post
 router.post("/api/create-post", authenticateToken, createPostLimiter, (req, res, next) => {
+    const io = req.app.get('io');
     // Define the query
     query = `INSERT INTO blog_posts (title, content, content_summary, thumbnailUrl, thumbnailPublicId, imagesList, user_id, isPublished, showOnHome, last_modified) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`;
     query_parameters = [req.body.postTitle, req.body.postContent, req.body.postSummary,
     req.body.thumbnailUrl, req.body.thumbnailPublicId, req.body.imagesList, req.body.authorId, 0, 0]
 
-    // Execute the INSERT query and redirects to the edit post page for the new post
+    // Execute the INSERT query and WebSocket Logic
     db.run(query, query_parameters, function (err) {
         if (err) return next(err);
-        res.json({ success: true, postId: this.lastID });
+        //Get all posts for websocket
+        db.all("SELECT * FROM blog_posts ORDER BY last_modified DESC", [], (err, posts) => {
+            //Web socket push
+            if (!err) {
+                io.emit("posts:update", posts);
+            }
+            //Response
+            res.json({ success: true, postId: this.lastID });
+        });
     });
 
 });
@@ -125,7 +134,6 @@ router.post("/api/toggle-publish-post", authenticateToken, toggleLimiter, async 
         }
 
         const postUserId = row.user_id;
-
         // Step 2: Check permissions
         if (req.user.role === "guest" && postUserId !== 2) {
             return res.status(403).json({ error: "toggle-publish-post: Permission denied" });
@@ -150,6 +158,7 @@ router.post("/api/toggle-publish-post", authenticateToken, toggleLimiter, async 
 
 // POST request to togle the ShowOnHome flag
 router.post("/api/toggle-show-on-home", authenticateToken, toggleLimiter, (req, res, next) => {
+    const io = req.app.get("io");
     const { blogPostId } = req.body;
     if (!blogPostId) return res.status(400).json({ error: "Missing blogPostId" });
 
@@ -164,9 +173,19 @@ router.post("/api/toggle-show-on-home", authenticateToken, toggleLimiter, (req, 
     db.run(query, [blogPostId], function (err) {
         if (err) {
             console.error("Toggle error:", err);
-            return res.status(500).json({ error: "Failed to toggle showOnHome" });
+            return res.status(500).json({ error: "Failed to toggle showOnHome: update query" });
         }
-        res.json({ success: true, blogPostId, newState: "toggled" });
+        // res.json({ success: true, blogPostId, newState: "toggled" });
+        db.all("SELECT * FROM blog_posts ORDER BY last_modified DESC", [], (err, posts) => {
+            if (err) {
+                console.error("Toggle error:", err);
+                return res.status(500).json({ error: "Failed to toggle showOnHome: all posts query" });
+            }
+            //Web socket push
+            io.emit("posts:update", posts);
+            //Response
+            res.json({ success: true, blogPostId, newState: "toggled" });
+        });
     });
 });
 

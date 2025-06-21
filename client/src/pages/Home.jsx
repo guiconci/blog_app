@@ -1,25 +1,40 @@
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { io } from "socket.io-client";
 const API = process.env.REACT_APP_API_URL;
+
+//SOCKET
+const socket = io(process.env.REACT_APP_API_URL);
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  const [blogName, setBlogName] = useState("");
-  const [blogDescription, setBlogDescription] = useState("");
 
+  //Fetches published posts at page load.
   useEffect(() => {
     fetch(`${API}/api/author-home`)
       .then((res) => res.json())
       .then((data) => {
-        setBlogName(data.blog_name);
-        setBlogDescription(data.blog_description);
         const filtered = data.blog_posts.filter(
           (p) => p.isPublished === 1 && p.showOnHome === 1
         );
         setPosts(filtered);
       })
       .catch((err) => console.error("Failed to load homepage data:", err));
+  }, []);
+
+  //Fetches new posts on togling them to show on home, listens to socket.io.
+  useEffect(() => {
+    // listen for updates:
+    socket.on("posts:update", updatedPosts => {
+      const filtered = updatedPosts.filter(
+        (p) => p.isPublished === 1 && p.showOnHome === 1
+      );
+      setPosts(filtered);
+    });
+    return () => {
+      socket.off("posts:update");
+    };
   }, []);
 
   return (
