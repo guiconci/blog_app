@@ -60,11 +60,13 @@ const Home = () => {
                 className="block rounded overflow-hidden shadow-lg dark:drop-shadow-lg dark:shadow-white/10 bg-background-subtle dark:bg-background-subtleDark hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] animate-fade-in-up delay-[${index * 75}ms]"
               >
                 {post.thumbnailUrl && (
-                  <img
-                    src={post.thumbnailUrl}
-                    alt={post.title}
-                    className="w-full h-48 object-cover"
-                  />
+                  <div className="w-full aspect-[3/2] overflow-hidden">
+                    <img
+                      src={post.thumbnailUrl}
+                      alt={post.title}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
                 )}
                 <div className="p-4">
                   <h3 className="text-xl font-bold mb-2">{post.title}</h3>
