@@ -9,7 +9,7 @@ import {
   PencilIcon,
   PlusIcon
 } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useImageUpload } from "../hooks/useImageUpload";
 const API = process.env.REACT_APP_API_URL;
 
@@ -154,11 +154,11 @@ const AuthorHome = () => {
       </div>
 
       <div className="mb-6">
-        <a href="/new">
+        <Link to="/new">
           <button className="click-allowed flex items-center gap-2">
             <PlusIcon className="w-5 h-5 shrink-0" /> Add New Project
           </button>
-        </a>
+        </Link>
       </div>
 
       {/* DRAFT POSTS */}

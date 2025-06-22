@@ -10,10 +10,12 @@ import PostEditor from "./pages/PostEditor";
 import ReaderArticle from "./pages/ReaderArticle";
 import Login from "./pages/Login"
 import { UnsavedChangesProvider } from "./context/unsavedChangesContext";
+import ScrollManager from "./components/ScrollManager";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <UnsavedChangesProvider>
     <BrowserRouter>
+    <ScrollManager />
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />

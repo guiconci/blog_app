@@ -1,50 +1,24 @@
-import { useCallback, useContext, useEffect } from "react";
-import { UNSAFE_NavigationContext as NavigationContext } from "react-router-dom";
+// hooks/usePrompt.js
+import { useEffect, useRef } from "react";
 
-// React Router navigation blocking (internal links, buttons, etc.)
-function useBlocker(blocker, when = true) {
-  const navigator = useContext(NavigationContext)?.navigator;
-
-  useEffect(() => {
-    if (!when || !navigator?.block) return;
-
-    const unblock = navigator.block((tx) => {
-      const autoUnblockingTx = {
-        ...tx,
-        retry() {
-          unblock();
-          tx.retry();
-        },
-      };
-      blocker(autoUnblockingTx);
-    });
-
-    return unblock;
-  }, [navigator, blocker, when]);
-}
-
-// Full prompt hook — also adds beforeunload for browser back/reload
 export function usePrompt(message, when) {
-  const blocker = useCallback(
-    (tx) => {
-      if (window.confirm(message)) {
-        tx.retry();
-      }
-    },
-    [message]
-  );
-
-  useBlocker(blocker, when);
-
+  const handlerRef = useRef();
   useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (when) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
+    const handler = (e) => {
+      if (!when) return;
+      e.preventDefault();
+      e.returnValue = message;
     };
+    handlerRef.current = handler;
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [message, when]);
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [when]);
+  // expose a kill switch
+  return () => {
+    if (handlerRef.current) {
+      window.removeEventListener("beforeunload", handlerRef.current);
+      handlerRef.current = null;
+    }
+  };
 }

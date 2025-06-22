@@ -9,38 +9,6 @@ import { useImageUpload } from "../hooks/useImageUpload";
 import { LinkIcon, ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/outline";
 const API = process.env.REACT_APP_API_URL;
 
-// Replaced by the logic to add unused thumbnails to unused images list abd batch deletion in Backend.
-// const delThumbnailFromDb = async (thumbnailUrl, thumbnailPublicId) => {
-//     if (thumbnailUrl.startsWith("https://res.cloudinary.com")) {
-//         try {
-//             const res = await fetch("http://localhost:3000/api/delete-image", {
-//                 method: "POST",
-//                 headers: { "Content-Type": "application/json" },
-//                 body: JSON.stringify({ public_id: thumbnailPublicId }),
-//             });
-//             const data = await res.json();
-//             console.log("Deletion result:", data);
-//         } catch (err) {
-//             console.error("Failed to delete from Cloudinary", err);
-//         }
-//     }
-// };
-
-// const delImagesFromDb = async (images) => {
-//     if (images.length === 0) return console.log('delImagesFromDb: unused imgs = 0 no API call needed');
-//     try {
-//         const res = await fetch("http://localhost:3000/api/delete-images", {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ images }),
-//         });
-//         const data = await res.json();
-//         console.log("Deletion result:", data);
-//     } catch (err) {
-//         console.error("Failed to delete from Cloudinary", err);
-//     }
-// };
-
 const createPostInDb = async (postData) => {
     try {
         await fetch(`${API}/api/create-post`, {
@@ -93,7 +61,7 @@ const PostEditor = () => {
     const getUnusedImagesRef = useRef(() => []);
     const getUsedImagesRef = useRef(() => []);
 
-
+    //Loads existing post on editMode
     useEffect(() => {
         if (isEditMode) {
             fetch(`${API}/api/author-edit?blogPostId=${postId}`, {
@@ -130,9 +98,42 @@ const PostEditor = () => {
         }
     }, [isEditMode, postId]);
 
-    // Blocks user leaving page if editor fields were changed.
-    usePrompt("You have unsaved changes. Are you sure you want to leave this page?", hasChanges);
+    //Blocks back/foward arrow when started editing post and ask for confirmation. NOT WORKING STILL ON DEVELOPMENT
+    // inside PostEditor.jsx (at top of your component)
+    // const disableBeforeUnload = usePrompt(
+    //     "You have unsaved changes. Are you sure you want to leave?",
+    //     hasChanges
+    // );
 
+    // useEffect(() => {
+    //     if (!hasChanges) return;
+
+    //     const onPopState = () => {
+    //         // The browser already navigated to the previous URL and React Router
+    //         // re-rendered that route. Now we ask:
+    //         const stay = !window.confirm(
+    //             "You have unsaved changes. Are you sure you want to leave?"
+    //         );
+
+    //         if (stay) {
+    //             // User said “Cancel” → push us back to the editor URL
+    //             window.history.pushState(null, "", window.location.href);
+    //         } else {
+    //             // User said “OK” → turn off the unload blocker so they don't get
+    //             // double prompts when React Router tears down this component.
+    //             disableBeforeUnload();
+    //         }
+    //     };
+
+    //     window.addEventListener("popstate", onPopState);
+    //     return () => window.removeEventListener("popstate", onPopState);
+    // }, [hasChanges, disableBeforeUnload]);
+    // useEffect(() => {
+    //     console.log("hasChanges: ", hasChanges)
+    // }, [hasChanges])
+
+    // Blocks external links navigation or page reload when started editing post and ask for confirmation.
+    usePrompt("You have unsaved changes. Are you sure you want to leave this page?", hasChanges);
 
 
     const onInsertThumbnail = (src, publicId) => {
@@ -184,18 +185,6 @@ const PostEditor = () => {
             thumbUrlInputRef.current?.reportValidity();
         }
     };
-    //Handles Uploaded thumbnails list for Cloudinary Clean Up.
-    // const handleThumbnailsDelList = () => {
-    //     const thumbsToDelete = thumbnailUploads.slice(0, -1);
-    //     // 1) only consider uploads that actually made it to Cloudinary
-    //     const withPid = thumbsToDelete.filter(img => img.public_id);
-    //     // 2) if there’s 0 or 1 valid thumbnails, nothing to delete
-    //     if (withPid.length <= 1) return [];
-    //     // 3) delete everything except the last (current) one
-    //     // return withPid.slice(0, -1);
-    //     return withPid;
-    // };
-
 
     //Function to run at Save or Update post button at the end of the page.
     const handleSaveOrUpdate = async () => {
@@ -205,10 +194,6 @@ const PostEditor = () => {
         }
 
         //Consolidade unused images for deletion.
-        // const unusedThumbImages = handleThumbnailsDelList() || [];
-        // const allUnusedImages = [...unusedContentImages, ...unusedThumbImages];
-        // delImagesFromDb(allUnusedImages);
-        // delete removed thumbnails + unused editor images
         const removedThumbs = removedThumbnailsRef.current;
         const unusedContentImages = getUnusedImagesRef.current() || [];
         const allForDeletion = [...unusedContentImages, ...removedThumbs];
@@ -273,7 +258,7 @@ const PostEditor = () => {
                 <input
                     type="text"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => { setDescription(e.target.value); setHasChanges(true); }}
                     placeholder="Short summary of your post"
                     required
                     maxLength={220}
@@ -400,8 +385,8 @@ const PostEditor = () => {
                         imageListRef.current = images;
                         getUnusedImagesRef.current = getUnusedImages;
                         getUsedImagesRef.current = getUsedImages;
-
                     }}
+                    onChange={() => setHasChanges(true)}
                 />
                 <div className="flex gap-4 mt-4">
                     <button type="submit" className="click-allowed">
