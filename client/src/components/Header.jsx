@@ -53,7 +53,7 @@ const Header = () => {
 
     return (
         <header className="sticky top-0 px-1 py-1 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur shadow dark:shadow-white/10 transition-all duration-300">
-            <div className="max-w-screen-lg mx-auto px-0.5 py-0.5 flex justify-between items-start">
+            <div className={`max-w-screen-lg ${pathname === '/' && '2xl:max-w-screen-xl'} mx-auto px-0.5 py-0.5 flex justify-between items-start`}>
                 {/* Left: Your Name */}
                 <div id="head-name" className="flex my-auto items-center text-lg font-semibold text-gray-800 dark:text-white">
                     Guilherme Conci Dev

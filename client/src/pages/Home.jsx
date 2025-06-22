@@ -40,7 +40,7 @@ const Home = () => {
   return (
     <div className="bg-background-light dark:bg-background-dark min-h-screen text-textMain-light dark:text-textMain-dark">
       {/* <Header /> */}
-      <main className="p-6 max-w-screen-lg mx-auto">
+      <main className="p-6 max-w-screen-lg 2xl:max-w-screen-xl mx-auto">
         <section className="mb-10 text-center">
           <h1 className="text-4xl font-bold mb-2 animate-fade-in-up">
             Hi, I'm Guilherme Conci
@@ -52,7 +52,7 @@ const Home = () => {
 
         <section className="mb-10">
           <h2 className="text-2xl font-semibold mb-6">Projects</h2>
-          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 ">
             {posts.map((post, index) => (
               <Link
                 to={`/reader-article/${post.post_id}`}
@@ -60,7 +60,7 @@ const Home = () => {
                 className="block rounded overflow-hidden shadow-lg dark:drop-shadow-lg dark:shadow-white/10 bg-background-subtle dark:bg-background-subtleDark hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] animate-fade-in-up delay-[${index * 75}ms]"
               >
                 {post.thumbnailUrl && (
-                  <div className="w-full aspect-[3/2] overflow-hidden">
+                  <div className="w-full aspect-auto overflow-hidden">
                     <img
                       src={post.thumbnailUrl}
                       alt={post.title}
