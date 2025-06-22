@@ -6,6 +6,7 @@ import Iframe from "../components/extensions/Iframe";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import Heading from "@tiptap/extension-heading";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
 
 import 'highlight.js/styles/atom-one-dark.css'
 import { createLowlight, all } from 'lowlight'
@@ -74,6 +75,7 @@ export function useTiptapEditor(initialContent, initialImages = []) {
             Iframe,
             Underline,
             CodeBlockLowlight.configure({ lowlight }),
+            HorizontalRule
         ],
         content: initialContent,
     });

@@ -65,6 +65,7 @@ module.exports = {
               wordBreak: 'break-word',
               overflowX: 'hidden',
             },
+            hr :{},
             '.ProseMirror ul': { listStyleType: 'disc' },
             '.ProseMirror ul ul': { listStyleType: 'circle' },
             '.ProseMirror ul ul ul': { listStyleType: 'square' },
