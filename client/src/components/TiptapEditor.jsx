@@ -82,7 +82,7 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
 
     return (
         <div className="relative overflow-visible border mb-2 p-1 rounded bg-background-light dark:bg-background-dark text-textMain-light dark:text-textMain-dark">
-            <div className="sticky top-8 p-1 border-b z-10 bg-background-light/90 dark:bg-background-dark/95 backdrop-blur shadow transition-all duration-300">
+            <div className="sticky top-14 md:top-11 p-1 border-b z-10 bg-background-light/90 dark:bg-background-dark/95 backdrop-blur shadow transition-all duration-300">
                 <div className="flex flex-wrap gap-1 mb-1">
                     <button
                         type="button"

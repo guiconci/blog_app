@@ -52,6 +52,7 @@ const PostEditor = () => {
     const removedThumbnailsRef = useRef([]);   // will hold public_ids to delete
     const [initialImages, setInitialImages] = useState([]);
     const [mode, setMode] = useState("url");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { hasChanges, setHasChanges } = useUnsavedChanges(); //Watches for inputs changes.
 
     const thumbUrlInputRef = useRef(null);
@@ -187,11 +188,16 @@ const PostEditor = () => {
     };
 
     //Function to run at Save or Update post button at the end of the page.
-    const handleSaveOrUpdate = async () => {
+    const handleSaveOrUpdate = async (e) => {
+        e.preventDefault();
         if (!thumbnailUrl) {
             window.alert("You must insert a Thumbnail image.");
             return;
         }
+        // guard against double-click
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
 
         //Consolidade unused images for deletion.
         const removedThumbs = removedThumbnailsRef.current;
@@ -217,8 +223,8 @@ const PostEditor = () => {
 
         if (isEditMode) await updatePostInDb(postData);
         else await createPostInDb(postData);
-
         navigate("/author-home");
+        setIsSubmitting(false);
     };
 
     const handleCancel = () => {
@@ -234,8 +240,7 @@ const PostEditor = () => {
             </h2>
             <form
                 onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSaveOrUpdate();
+                    handleSaveOrUpdate(e);
                 }}
             >
                 {/* Input Post Title */}
