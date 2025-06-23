@@ -40,6 +40,11 @@ module.exports = {
             h2: { color: theme('colors.textMain.light') },
             h3: { color: theme('colors.textMain.light') },
             code: { color: theme('colors.textMain.light') },
+            pre: {
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              overflowX: 'hidden',
+            },
             iframe: {
               display: 'block',
               margin: '8px auto',
@@ -48,6 +53,56 @@ module.exports = {
               /* let the browser keep its intrinsic ratio: */
               aspectRatio: '16/9',
               borderRadius: '5px'
+            },
+            hr: { margin: '26px 0' },
+            '.prose ul': {
+              listStyleType: 'disc',
+              paddingLeft: theme('spacing.4'),
+              '@screen md': {
+                paddingLeft: theme('spacing.8'),
+              },
+            },
+            '.prose ul ul': {
+              listStyleType: 'circle',
+              paddingLeft: theme('spacing.3'),
+              '@screen md': {
+                paddingLeft: theme('spacing.8'),
+              },
+            },
+            '.prose ul ul ul': {
+              listStyleType: 'square',
+              paddingLeft: theme('spacing.3'),
+              '@screen md': {
+                paddingLeft: theme('spacing.8'),
+              },
+            },
+            '.prose ol': {
+              listStyleType: 'decimal',
+              paddingLeft: theme('spacing.4'),
+              '@screen md': {
+                paddingLeft: theme('spacing.8'),
+              },
+            },
+            '.prose ol ol': {
+              listStyleType: 'lower-alpha',
+              paddingLeft: theme('spacing.4'),
+              '@screen md': {
+                paddingLeft: theme('spacing.8'),
+              },
+            },
+            '.prose ol ol ol': {
+              listStyleType: 'lower-roman',
+              paddingLeft: theme('spacing.4'),
+              '@screen md': {
+                paddingLeft: theme('spacing.8'),
+              },
+            },
+            'li > p': {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            'li + li': {
+              marginTop: theme('spacing.2'),
             },
           },
         },
@@ -60,25 +115,6 @@ module.exports = {
             h2: { color: theme('colors.textMain.dark') },
             h3: { color: theme('colors.textMain.dark') },
             code: { color: theme('colors.textMain.dark') },
-            pre: {
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              overflowX: 'hidden',
-            },
-            hr :{margin: '26px 0'},
-            '.ProseMirror ul': { listStyleType: 'disc' },
-            '.ProseMirror ul ul': { listStyleType: 'circle' },
-            '.ProseMirror ul ul ul': { listStyleType: 'square' },
-            '.ProseMirror ol': { listStyleType: 'decimal' },
-            '.ProseMirror ol ol': { listStyleType: 'lower-alpha' },
-            '.ProseMirror ol ol ol': { listStyleType: 'lower-roman' },
-            'li > p': {
-              marginTop: '0',
-              marginBottom: '0',
-            },
-            'li + li': {
-              marginTop: theme('spacing.2'),
-            },
           },
         },
       }),
