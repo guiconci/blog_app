@@ -1,7 +1,12 @@
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { useLocation } from "react-router-dom";
 
-const Footer = () => (
-  <footer className="max-w-screen-lg mx-auto border-t pt-6 pb-8 mt-12 text-sm text-gray-600 dark:text-gray-400 text-center space-y-2">
+const Footer = () => {
+  const location = useLocation();
+    const { pathname } = location;
+    
+  return (
+  <footer className={`max-w-screen-lg ${pathname === '/' && '2xl:max-w-screen-xl'} mx-auto border-t pt-6 pb-8 mt-12 text-sm text-gray-600 dark:text-gray-400 text-center space-y-2`}>
     <p>Powered by React · Node.js · SQLite</p>
 
     <div className="flex justify-center gap-4 text-xl">
@@ -20,6 +25,6 @@ const Footer = () => (
       © {new Date().getFullYear()} Guilherme Conci. All rights reserved.
     </p>
   </footer>
-);
+)};
 
 export default Footer;
