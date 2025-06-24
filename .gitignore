@@ -17,4 +17,4 @@ node_modules
 hash-password.js
 
 # Dev docker file
-Dockerfile.dev
+Included for repo cloning and local dev.

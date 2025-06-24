@@ -12,6 +12,7 @@ import {
     Bars3CenterLeftIcon,
     Bars3BottomRightIcon,
     Bars4Icon,
+    LinkIcon
 } from '@heroicons/react/24/outline'
 
 
@@ -186,6 +187,26 @@ const TiptapEditor = ({ onEditorReady, onImagesUpdate, initialImages = [] }) => 
                             </button>
                         );
                     })}
+                    {/* Link Button */}
+                    <button type="button"
+                        title="Add Link"
+                        className="px-2 py-1 border rounded"
+                        onClick={() => {
+                            const previousUrl = editor.getAttributes('link').href
+                            const url = window.prompt('Enter URL', previousUrl || 'https://')
+
+                            // If URL is blank, remove the link
+                            if (url === null) return
+                            if (url === '') {
+                                editor.chain().focus().unsetLink().run()
+                                return
+                            }
+
+                            // Else, set the link
+                            editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+                        }}>
+                        <LinkIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
                     {/* UL Button */}
                     <button type="button"
                         title="Unordered List"

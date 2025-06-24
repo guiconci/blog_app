@@ -37,6 +37,15 @@ const Home = () => {
     };
   }, []);
 
+  //Checks screen width for dynamic content adjustment
+  const [isWideScreen, setIsWideScreen] = useState(false);
+  useEffect(() => {
+    const checkWidth = () => setIsWideScreen(window.innerWidth >= 1000);
+    checkWidth(); // Initial check
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
+
   return (
     <div className="bg-background-light dark:bg-background-dark min-h-screen text-textMain-light dark:text-textMain-dark">
       {/* <Header /> */}
@@ -45,8 +54,10 @@ const Home = () => {
           <h1 className="text-4xl font-bold mb-2 animate-fade-in-up">
             Hi, I'm Guilherme Conci
           </h1>
-          <p className="text-lg animate-fade-in-up delay-150">
-            A developer and problem-solver with a background in materials science, now building clean, scalable web tools with React, Node.js, and SQLite. This is my portfolio — where code meets purpose.
+          <p className="text-lg animate-fade-in-up">
+            From factory floors to full-stack code, my work has always been about solving the right problems with the right tools.
+            {isWideScreen ? <span className="block h-2" /> : <span> </span>} 
+            This space is a collection of software experiments, systems, and ideas — built with care, and meant to be used.          
           </p>
         </section>
 
