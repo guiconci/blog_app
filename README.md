@@ -32,8 +32,8 @@ A simple content management application built with **Node.js**, **Express**, **R
     * Tiptap core and extensions. <!--For Rich text editting. -->
     * Socket.io <!--Push updates without page reload. -->
 
-##### ----------How to Run Locally--------- #####
-##### Clone Git Repository - STEP 1 
+# ----------How to Run Locally--------- #
+## Clone Git Repository - STEP 1 
 ```bash
 git clone https://github.com/guiconci/blog_app.git
 cd blog_app
