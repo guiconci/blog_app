@@ -96,7 +96,7 @@ docker compose down
 docker compose build --no-cache
 ```
 
-##### ----------LIVE DEPLOYMENT--------- #####
+# ----------LIVE DEPLOYMENT--------- #
 * Done through Render
 * Setup account
 * Create project
