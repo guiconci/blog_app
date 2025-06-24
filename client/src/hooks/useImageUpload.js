@@ -1,5 +1,5 @@
 import { useState } from "react";
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 export function useImageUpload(onInsert) {
   const [isUploading, setIsUploading] = useState(false);

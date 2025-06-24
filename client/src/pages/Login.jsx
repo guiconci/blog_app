@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 const Login = () => {
     const [user, setUser] = useState("guest");

@@ -4,7 +4,7 @@ import hljs from 'highlight.js';
 import { all } from 'lowlight'
 // import 'highlight.js/styles/github.css';
 import 'highlight.js/styles/atom-one-dark.css'
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 const ReaderArticle = () => {
   const { id } = useParams();

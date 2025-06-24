@@ -1,11 +1,12 @@
+// src/backend/pages/home
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 //SOCKET
-const socket = io(process.env.REACT_APP_API_URL);
+const socket = io(process.env.REACT_APP_BACKEND_URL);
 
 const Home = () => {
   const [posts, setPosts] = useState([]);

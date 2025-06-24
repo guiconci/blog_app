@@ -11,7 +11,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNavigate, Link } from "react-router-dom";
 import { useImageUpload } from "../hooks/useImageUpload";
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
+const REACT_URL = process.env.REACT_APP_FRONTEND_URL;
 
 //Request to Del thumbnail from DB based on public ID
 const delThumbnailFromDb = async (thumbnailUrl, thumbnailPublicId) => {
@@ -226,7 +227,7 @@ const AuthorHome = () => {
                   <button
                     className="click-allowed flex items-center gap-1"
                     onClick={() => {
-                      navigator.clipboard.writeText(`${API}/reader-article?blogPostId=${post.post_id}`);
+                      navigator.clipboard.writeText(`${REACT_URL}/reader-article/${post.post_id}`);
                       alert("Link copied to clipboard");
                     }}>
                     <ClipboardIcon className="w-5 h-5 shrink-0" /> Copy Link

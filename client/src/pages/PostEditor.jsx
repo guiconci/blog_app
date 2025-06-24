@@ -7,7 +7,7 @@ import { useUnsavedChanges } from "../context/unsavedChangesContext";
 import { usePrompt } from "../hooks/usePrompt";
 import { useImageUpload } from "../hooks/useImageUpload";
 import { LinkIcon, ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/outline";
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_BACKEND_URL;
 
 const createPostInDb = async (postData) => {
     try {
